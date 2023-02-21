@@ -102,19 +102,26 @@ class Agent:
     
     
     def step(self, state, action, reward, next_state, done):
+        
+        # next_state = np.array(next_state)
+        # next_state = np.rollaxis(next_state, 3, 1)
+        # next_state = np.rollaxis(next_state, 2, 1)
+        # next_state = next_state.reshape(1, 4, 84, 84) 
         """Save experience in replay memory, and use random sample from buffer to learn."""
         self.memory.add(state, action, reward, next_state, done)
+        
+        print("Shape of the next exp in step before step", next_state.shape)
         # Learn every UPDATE_EVERY time steps.
         self.t_step = (self.t_step + 1) % self.update_every
         if self.t_step == 0:
             # If enough samples are available in memory, get random subset and learn
             if len(self.memory) > self.batch_size:
+                print("Shape of the next exp in step before sampling", next_state.shape)
+                
                 experiences = self.memory.sample()
                 
-                print("Shape of the next step in step agent ", state.shape)
-                
-                print("Shape of the next exp in step ", experiences[2].shape)
-
+                print("Shape of the next step in step agent ", next_state.shape)
+                print("Shape of the next exp in step ", experiences[3].shape)
 
                 self.learn(experiences)
     
@@ -135,7 +142,7 @@ class Agent:
         print("Shape of the next step in learn ", next_states.shape)
 
         # Get max predicted Q values (for next states) from target model
-        Q_targets_next = self.qnetwork_target(next_states).detach().max(1)[0].unsqueeze(1)
+        Q_targets_next = self.qnetwork_target(next_states).detach().max(1)[0]
 
         # Compute Q targets for current states 
         Q_targets = rewards + (self.gamma * Q_targets_next * (1 - dones))

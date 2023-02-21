@@ -30,7 +30,6 @@ class QNetwork(nn.Module):
         # X = X.permute(0, 3, 1, 2)
         print("X is ", X.shape)
         X = self.conv_forward(X)
-        X = X.view(X.size(0), -1) # Flatten the output tensor
         print("X after conv_forward is ", X.shape)
         X = self.fc_forward(X)
         print("X after fc_forward is ", X.shape)
