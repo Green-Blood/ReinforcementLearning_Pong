@@ -5,8 +5,8 @@ import random
 import gym
 import numpy as np
 import torch
-from qnetwork import QNetwork
-from replay_buffer import ReplayBuffer
+from BackPropagation.qnetwork import QNetwork
+from BackPropagation.replay_buffer import ReplayBuffer
 from torch.functional import F
 from torch import nn
 
@@ -73,31 +73,6 @@ class Agent:
             return np.argmax(action_values.cpu().data.numpy())
         else:
             return random.choice(np.arange(self.action_size))
-    
-    
-    
-    # def act(self, state, eps=0.):
-    #     """Returns actions for given state as per current policy.
-        
-    #     Params
-    #     ======
-    #         state (array_like): current state
-    #         eps (float): epsilon, for epsilon-greedy action selection
-    #     """
-    #     state = np.array(state)
-    #     state = state.astype('float32') / 255.0  # rescale pixel values to between 0 and 1
-    #     state = np.transpose(state, (2, 0, 1))  # change the shape from (height, width, channels) to (channels, height, width)
-    #     state = torch.from_numpy(state).unsqueeze(0).to(device)  # convert to torch tensor and add batch dimension
-    #     self.qnetwork_local.eval()
-    #     with torch.no_grad():
-    #         action_values = self.qnetwork_local(state)
-    #     self.qnetwork_local.train()
-
-    #     # Epsilon-greedy action selection
-    #     if random.random() > eps:
-    #         return np.argmax(action_values.cpu().data.numpy())
-    #     else:
-    #         return random.choice(np.arange(self.action_size))
 
     
     
